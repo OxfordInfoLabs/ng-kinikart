@@ -34,6 +34,40 @@
 
 <div class="actionpanel sixtyforty mx1 mb2">
 
+    <div class="actioninfo p2w p1m">
+        <h4 class="mb1 mt0">Mobile Phone Number</h4>
+
+        <p class="mb0">
+            We use your mobile phone number as an extra layer of security. It can also be used to help restore
+            access to your account in the event you are unable to get in.
+        </p>
+
+    </div>
+    <div class="actions flex flex-col align-center justify-center p1">
+        <button class="button small-button white-button" >Edit Mobile Number</button>
+    </div>
+
+</div>
+
+<div class="actionpanel sixtyforty mx1 mb2">
+
+    <div class="actioninfo p2w p1m">
+        <h4 class="mb1 mt0">Backup Email Address</h4>
+
+        <p class="mb0">
+            In the event you need to restore access to your account we can use this secondary email address
+            to help you gain access.
+        </p>
+
+    </div>
+    <div class="actions flex flex-col align-center justify-center p1">
+        <button class="button small-button white-button" >Edit Email Address</button>
+    </div>
+
+</div>
+
+<div class="actionpanel sixtyforty mx1 mb2">
+
     <kb-bind source="/internal/auth/twoFAConfig" [model]="twoFactorConfig" method="GET"
              (onLoad)="isLoading = false;" [reloadTrigger]="reloadTwoFactor"></kb-bind>
 
