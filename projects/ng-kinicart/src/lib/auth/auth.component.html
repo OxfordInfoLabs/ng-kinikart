@@ -1,3 +1,63 @@
-<p>
-  auth works!
-</p>
+<kb-bind source="/internal/account" method="GET" [model]="security"></kb-bind>
+
+<div class="actionpanel sixtyforty mx1 mb2">
+
+    <div class="actioninfo p2w p1m">
+        <h4 class="mb1 mt0">Email Address</h4>
+
+        <p class="mb0" *ngIf="security.data.user">Your account email address is currently set to
+            <strong>{{security.data.user.emailAddress}}</strong></p>
+
+    </div>
+    <div class="actions flex flex-col align-center justify-center p1">
+        <button class="button small-button white-button" [routerLink]="['/account/security/editemail']">Edit Email
+            Address
+        </button>
+    </div>
+
+</div>
+
+<div class="actionpanel sixtyforty mx1 mb2">
+
+    <div class="actioninfo p2w p1m">
+        <h4 class="mb1 mt0">Password</h4>
+
+        <p class="mb0">You can reset your password to another one by clicking the reset button. This will email you
+            a temporary password which you will need to change when you next log in.</p>
+
+    </div>
+    <div class="actions flex flex-col align-center justify-center p1">
+        <button class="button small-button white-button" (click)="resetAccountPassword()">Reset Password</button>
+    </div>
+
+</div>
+
+<div class="actionpanel sixtyforty mx1 mb2">
+
+    <kb-bind source="/internal/auth/twoFAConfig" [model]="twoFactorConfig" method="GET"
+             (onLoad)="isLoading = false;" [reloadTrigger]="reloadTwoFactor"></kb-bind>
+
+    <div class="actioninfo p2w p1m">
+        <h4 class="mb1 mt0">Two Factor Authentication</h4>
+
+        <p class="mb0">
+            To increase security on your account you can enable two factor authentication. Currently this uses the
+            Google Authenticator app downloadable for your mobile device.
+        </p>
+
+    </div>
+    <div class="actions flex flex-col align-center justify-center p1">
+
+        <mat-spinner [diameter]="50" *ngIf="isLoading"></mat-spinner>
+
+        <button class="button small-button white-button" [routerLink]="['/account/security/two-factor']"
+                *ngIf="!isLoading && !twoFactorConfig.data">
+            Enable 2FA
+        </button>
+        <button class="button small-button alert-button" *ngIf="!isLoading && twoFactorConfig.data"
+                (click)="disable2FA()">
+            Disable 2FA
+        </button>
+    </div>
+
+</div>
