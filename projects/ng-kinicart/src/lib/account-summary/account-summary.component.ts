@@ -1,13 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { KinibindModel, KinibindRequestService } from "ng-kinibind";
-import { Subject } from "rxjs/internal/Subject";
+import { KinibindModel, KinibindRequestService } from 'ng-kinibind';
+import { Subject } from 'rxjs';
 
 @Component({
-    selector: 'kc-auth',
-    templateUrl: './auth.component.html',
-    styleUrls: ['./auth.component.sass']
+    selector: 'kc-account-summary',
+    templateUrl: './account-summary.component.html',
+    styleUrls: ['./account-summary.component.sass']
 })
-export class AuthComponent implements OnInit {
+export class AccountSummaryComponent implements OnInit {
 
     @Input() authService;
 
