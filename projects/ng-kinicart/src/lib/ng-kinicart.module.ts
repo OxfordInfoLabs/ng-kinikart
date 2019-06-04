@@ -7,6 +7,7 @@ import { AccountSummaryComponent } from './account-summary/account-summary.compo
 import { EditEmailComponent } from './account-summary/edit-email/edit-email.component';
 import { TwoFactorComponent } from './account-summary/two-factor/two-factor.component';
 import { LoginComponent } from './auth/login/login.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -19,7 +20,9 @@ import { LoginComponent } from './auth/login/login.component';
         NgKinibindModule,
         RouterModule,
         CommonModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        FormsModule,
+        ReactiveFormsModule
     ],
     exports: [
         AccountSummaryComponent,
