@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "watch": "ng build ng-kinicart --watch",
-    "build": "ng build ng-kinicart"
+    "build": "ng build ng-kinicart",
+    "test": "ng test ng-kinicart"
   },
   "private": true,
   "dependencies": {
