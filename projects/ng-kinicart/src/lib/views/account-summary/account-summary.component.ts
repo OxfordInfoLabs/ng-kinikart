@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { KinibindModel, KinibindRequestService } from 'ng-kinibind';
+import { KinibindRequestService } from 'ng-kinibind';
 import { Subject } from 'rxjs';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
     selector: 'kc-account-summary',
@@ -9,18 +10,26 @@ import { Subject } from 'rxjs';
 })
 export class AccountSummaryComponent implements OnInit {
 
-    @Input() authService;
+    @Input() authenticationService: any;
 
-    public security: KinibindModel = new KinibindModel({});
-    public twoFactorConfig: KinibindModel = new KinibindModel({});
+    public security: any;
+    public twoFactorConfig: any;
     public reloadTwoFactor: Subject<boolean> = new Subject();
     public isLoading = true;
 
-    constructor(private kbRequest: KinibindRequestService) {
+    public editEmail = false;
+    public editMobile = false;
+    public editBackup = false;
+    public enableTwoFa = false;
+
+    public authService;
+
+    constructor(private kbRequest: KinibindRequestService,
+                private kcAuthService: AuthenticationService) {
     }
 
     ngOnInit() {
-
+        this.authService = this.authenticationService ? this.authenticationService : this.kcAuthService;
     }
 
     public resetAccountPassword() {

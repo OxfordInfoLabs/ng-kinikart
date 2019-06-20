@@ -11,6 +11,7 @@ export class TwoFactorComponent implements OnInit {
     }
 
     ngOnInit() {
+
     }
 
 }

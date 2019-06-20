@@ -1,16 +1,14 @@
-<kb-bind source="/internal/account" method="GET" [model]="security"></kb-bind>
-
 <div class="actionpanel sixtyforty mx1 mb2">
 
     <div class="actioninfo p2w p1m">
         <h4 class="mb1 mt0">Email Address</h4>
 
-        <p class="mb0" *ngIf="security.data.user">Your account email address is currently set to
-            <strong>{{security.data.user.emailAddress}}</strong></p>
+        <p class="mb0" *ngIf="security && security.user">Your account email address is currently set to
+            <strong>{{security.user.emailAddress}}</strong></p>
 
     </div>
     <div class="actions flex flex-col align-center justify-center p1">
-        <button class="button small-button white-button" [routerLink]="['/account/security/editemail']">Edit Email
+        <button class="button small-button white-button" (click)="editEmail = true;">Edit Email
             Address
         </button>
     </div>
@@ -68,9 +66,6 @@
 
 <div class="actionpanel sixtyforty mx1 mb2">
 
-    <kb-bind source="/internal/auth/twoFAConfig" [model]="twoFactorConfig" method="GET"
-             (onLoad)="isLoading = false;" [reloadTrigger]="reloadTwoFactor"></kb-bind>
-
     <div class="actioninfo p2w p1m">
         <h4 class="mb1 mt0">Two Factor Authentication</h4>
 
@@ -82,7 +77,7 @@
     </div>
     <div class="actions flex flex-col align-center justify-center p1">
 
-        <mat-spinner [diameter]="50" *ngIf="isLoading"></mat-spinner>
+        <span *ngIf="isLoading">Loading...</span>
 
         <button class="button small-button white-button" [routerLink]="['/account/security/two-factor']"
                 *ngIf="!isLoading && !twoFactorConfig.data">
@@ -95,3 +90,22 @@
     </div>
 
 </div>
+
+<kc-inline-modal *ngIf="editEmail" (closed)="editEmail = false">
+    <h1>Edit Email Address</h1>
+    <kc-edit-email [authenticationService]="authService" (saved)="editEmail = false;"></kc-edit-email>
+</kc-inline-modal>
+
+<kc-inline-modal *ngIf="editMobile" (closed)="editMobile = false">
+    <h1>Edit Mobile Phone Number</h1>
+    <kc-edit-mobile [authenticationService]="authService" (saved)="editMobile = false;"></kc-edit-mobile>
+</kc-inline-modal>
+
+<kc-inline-modal *ngIf="editBackup" (closed)="editBackup = false">
+    <h1>Edit Backup Email Address</h1>
+    <kc-edit-backup-email [authenticationService]="authService" (saved)="editBackup = false;"></kc-edit-backup-email>
+</kc-inline-modal>
+
+<kc-inline-modal *ngIf="enableTwoFa">
+
+</kc-inline-modal>
