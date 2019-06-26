@@ -1,4 +1,4 @@
-import { InjectionToken, ModuleWithProviders, NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { NgKinibindModule } from 'ng-kinibind';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -44,11 +44,10 @@ import { EditMobileComponent } from './lib/views/account-summary/edit-mobile/edi
 export class NgKinicartModule {
 
     static forRoot(conf?: KinicartModuleConfig): ModuleWithProviders {
-
         return {
             ngModule: NgKinicartModule,
             providers: [
-                { provide: KinicartModuleConfig, useValue: conf }
+                { provide: KinicartModuleConfig, useValue: conf || {} }
             ]
         };
     }

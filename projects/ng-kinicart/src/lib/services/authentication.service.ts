@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { BaseService } from './base.service';
 import { KinicartModuleConfig } from '../../ng-kinicart.module';
 import { KinibindRequestService } from 'ng-kinibind';
