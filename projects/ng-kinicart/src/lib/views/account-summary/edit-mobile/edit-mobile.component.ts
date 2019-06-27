@@ -17,7 +17,7 @@ export class EditMobileComponent extends BaseComponent implements OnInit {
 
     public user: any;
 
-    constructor(kcAuthService: AuthenticationService) {
+    constructor(public kcAuthService: AuthenticationService) {
         super(kcAuthService);
     }
 

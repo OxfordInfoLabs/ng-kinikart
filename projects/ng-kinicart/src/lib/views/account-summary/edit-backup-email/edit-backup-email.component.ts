@@ -18,13 +18,13 @@ export class EditBackupEmailComponent extends BaseComponent implements OnInit {
 
     public user: any;
 
-    constructor(kcAuthService: AuthenticationService) {
+    constructor(public kcAuthService: AuthenticationService) {
         super(kcAuthService);
     }
 
     ngOnInit() {
         super.ngOnInit();
-        this.authService.getLoggedInUser().then(user => {
+        return this.authService.getLoggedInUser().then(user => {
             this.user = user;
         });
     }

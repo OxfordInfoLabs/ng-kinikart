@@ -1,6 +1,12 @@
+import { Injectable } from '@angular/core';
+import { KinicartModuleConfig } from '../../ng-kinicart.module';
+
+@Injectable({
+    providedIn: 'root'
+})
 export class BaseService {
 
-    constructor(public config?) {
+    constructor(public config: KinicartModuleConfig) {
     }
 
     public constructHttpURL(url) {

@@ -1,25 +1,45 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { EditBackupEmailComponent } from './edit-backup-email.component';
 
+class MockAuthService  {
+
+    loggedInUser = null;
+
+    getLoggedInUser() {
+        return Promise.resolve(this.loggedInUser);
+    }
+
+}
+
 describe('EditBackupEmailComponent', () => {
-  let component: EditBackupEmailComponent;
-  let fixture: ComponentFixture<EditBackupEmailComponent>;
+    let component: EditBackupEmailComponent;
+    let service: any;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ EditBackupEmailComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(() => {
+        service = new MockAuthService();
+        component = new EditBackupEmailComponent(service);
+    });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(EditBackupEmailComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    afterEach(() => {
+        service = null;
+        component = null;
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
+
+    it ('user object should be null if not logged in', () => {
+        service.loggedInUser = null;
+        component.ngOnInit().then(() => {
+            expect(component.user).toBe(null);
+        });
+    });
+
+    it ('user object should be populated with logged in user, if we are logged in', () => {
+        service.loggedInUser = {name: 'Mr Test', email: 'test@me.com'};
+        component.ngOnInit().then(() => {
+            expect(component.user).toBeTruthy();
+            expect(component.user.name).toBe('Mr Test');
+        });
+    });
 });
