@@ -23,7 +23,7 @@ export class EditMobileComponent extends BaseComponent implements OnInit {
 
     ngOnInit() {
         super.ngOnInit();
-        this.authService.getLoggedInUser().then(user => {
+        return this.authService.getLoggedInUser().then(user => {
             this.user = user;
         });
     }
