@@ -19,7 +19,7 @@ describe('EditBackupEmailComponent', () => {
         component = new EditBackupEmailComponent(service);
     });
 
-    afterEach(() => {
+    afterAll(() => {
         service = null;
         component = null;
     });
