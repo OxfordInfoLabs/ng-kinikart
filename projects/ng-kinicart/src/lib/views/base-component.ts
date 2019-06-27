@@ -16,7 +16,7 @@ export class BaseComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.authService = this.authenticationService || this.kcAuthService;
+        this.authService = this.authenticationService ? this.authenticationService : this.kcAuthService;
     }
 
 }

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../../services/authentication.service';
+import { BaseComponent } from '../../base-component';
 
 @Component({
     selector: 'kc-login',
@@ -8,9 +9,8 @@ import { AuthenticationService } from '../../../services/authentication.service'
     styleUrls: ['./login.component.sass'],
     encapsulation: ViewEncapsulation.None
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent extends BaseComponent implements OnInit {
 
-    @Input() authenticationService: any;
     @Input() loginRoute: string;
 
     public email: string;
@@ -20,29 +20,28 @@ export class LoginComponent implements OnInit {
     public twoFACode: string;
     public twoFAError = false;
 
-    private authService;
-
     constructor(private router: Router,
-                private kcAuthService: AuthenticationService) {
+                kcAuthService: AuthenticationService) {
+        super(kcAuthService);
     }
 
     ngOnInit() {
-        this.authService = this.authenticationService ? this.authenticationService : this.kcAuthService;
+        super.ngOnInit();
+        return Promise.resolve(true);
     }
 
     public login() {
         if (this.email && this.password) {
             this.loading = true;
-            this.authService.login(this.email, this.password)
+            return this.authService.login(this.email, this.password)
                 .then((res: any) => {
                     this.loading = false;
-
                     if (res.step === '2FA') {
                         this.twoFA = true;
+                        return true;
                     } else {
-                        this.router.navigate([this.loginRoute || '/']);
+                        return this.router.navigate([this.loginRoute || '/']);
                     }
-
                 })
                 .catch(err => {
                     this.loading = false;
