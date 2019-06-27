@@ -3,8 +3,8 @@
     <div class="actioninfo p2w p1m">
         <h4 class="mb1 mt0">Email Address</h4>
 
-        <p class="mb0" *ngIf="security && security.user">Your account email address is currently set to
-            <strong>{{security.user.emailAddress}}</strong></p>
+        <p class="mb0" *ngIf="security">Your account email address is currently set to
+            <strong>{{security.emailAddress}}</strong></p>
 
     </div>
     <div class="actions flex flex-col align-center justify-center p1">
@@ -35,6 +35,9 @@
     <div class="actioninfo p2w p1m">
         <h4 class="mb1 mt0">Mobile Phone Number</h4>
 
+        <p *ngIf="security">Your mobile number is currently set to
+            <strong>{{security.mobileNumber}}</strong></p>
+
         <p class="mb0">
             We use your mobile phone number as an extra layer of security. It can also be used to help restore
             access to your account.
@@ -51,6 +54,9 @@
 
     <div class="actioninfo p2w p1m">
         <h4 class="mb1 mt0">Backup Email Address</h4>
+
+        <p *ngIf="security">Your account backup email address is currently set to
+            <strong>{{security.backupEmailAddress}}</strong></p>
 
         <p class="mb0">
             In the event you need to restore access to your account we can use this secondary email address

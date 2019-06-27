@@ -1,14 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { KinibindRequestService } from 'ng-kinibind';
 import { Subject } from 'rxjs';
 import { AuthenticationService } from '../../services/authentication.service';
+import { BaseComponent } from '../base-component';
 
 @Component({
     selector: 'kc-account-summary',
     templateUrl: './account-summary.component.html',
     styleUrls: ['./account-summary.component.sass']
 })
-export class AccountSummaryComponent implements OnInit {
+export class AccountSummaryComponent extends BaseComponent implements OnInit {
 
     @Input() authenticationService: any;
 
@@ -22,14 +22,15 @@ export class AccountSummaryComponent implements OnInit {
     public editBackup = false;
     public enableTwoFa = false;
 
-    public authService;
-
-    constructor(private kbRequest: KinibindRequestService,
-                private kcAuthService: AuthenticationService) {
+    constructor(kcAuthService: AuthenticationService) {
+        super(kcAuthService);
     }
 
     ngOnInit() {
-        this.authService = this.authenticationService ? this.authenticationService : this.kcAuthService;
+        super.ngOnInit();
+        return this.authService.getLoggedInUser().then(user => {
+            this.security = user;
+        });
     }
 
     public resetAccountPassword() {
@@ -43,9 +44,7 @@ export class AccountSummaryComponent implements OnInit {
     public disable2FA() {
         const message = 'Are you sure you would like to turn off Two Factor Authentication?';
         if (window.confirm(message)) {
-            this.kbRequest.makeGetRequest('/internal/account/disableGoogle2FA')
-                .toPromise()
-                .then(() => {
+            this.authService.disable2FA().then(() => {
                     this.reloadTwoFactor.next(true);
                 });
         }
