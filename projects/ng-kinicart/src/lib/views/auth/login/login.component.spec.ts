@@ -6,6 +6,17 @@ class MockAuthService {
         return Promise.resolve(email === password ? { step: '2FA' } : true);
     }
 
+    public authenticateTwoFactor(twoFaCode) {
+        return new Promise((resolve, reject) => {
+            if (twoFaCode === '1234') {
+                resolve('success');
+            } else {
+                reject('failed');
+            }
+        });
+
+    }
+
 }
 
 class MockRouter {
@@ -77,7 +88,31 @@ describe('LoginComponent', () => {
         });
     });
 
-    it('should prompt for 2FA workflow if login supports it', (done) => {
+    it('should prompt for 2FA workflow if login supports it, and navigate to route if successful', (done) => {
+        let loginSpy = spyOn(service, 'login').and.callThrough();
+        let routerSpy = spyOn(router, 'navigate').and.callThrough();
+        component.ngOnInit().then(() => {
+            component.email = 'hello';
+            component.password = 'hello';
+            component.login().then(() => {
+                expect(loginSpy).toHaveBeenCalledWith('hello', 'hello');
+                expect(component.loading).toBeFalsy();
+                expect(routerSpy).not.toHaveBeenCalled();
+                expect(component.twoFA).toBeTruthy();
+                component.twoFACode = '1234';
+                let twoFaSpy = spyOn(service, 'authenticateTwoFactor').and.callThrough();
+                component.authenticate()
+                    .then(result => {
+                        expect(twoFaSpy).toHaveBeenCalledWith('1234');
+                        expect(result).toBe('success');
+                        expect(routerSpy).toHaveBeenCalledWith(['/']);
+                        done();
+                    });
+            });
+        });
+    });
+
+    it('should prompt for 2FA workflow if login supports it, and not navigate if incorrect', (done) => {
         let loginSpy = spyOn(service, 'login').and.callThrough();
         let routerSpy = spyOn(router, 'navigate');
         component.ngOnInit().then(() => {
@@ -88,7 +123,16 @@ describe('LoginComponent', () => {
                 expect(component.loading).toBeFalsy();
                 expect(routerSpy).not.toHaveBeenCalled();
                 expect(component.twoFA).toBeTruthy();
-                done();
+                component.twoFACode = '123456';
+                let twoFaSpy = spyOn(service, 'authenticateTwoFactor').and.callThrough();
+                component.authenticate()
+                    .then(result => {
+                        expect(twoFaSpy).toHaveBeenCalledWith('123456');
+                        expect(result).toBe('failed');
+                        expect(routerSpy).not.toHaveBeenCalled();
+                        expect(component.twoFAError).toBeTruthy();
+                        done();
+                    });
             });
         });
     });

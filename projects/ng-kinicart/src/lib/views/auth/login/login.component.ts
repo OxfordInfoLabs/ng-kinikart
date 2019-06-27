@@ -58,14 +58,16 @@ export class LoginComponent extends BaseComponent implements OnInit {
     public authenticate() {
         this.loading = true;
         if (this.twoFACode) {
-            this.authService.authenticateTwoFactor(this.twoFACode)
+            return this.authService.authenticateTwoFactor(this.twoFACode)
                 .then(user => {
                     this.loading = false;
                     this.router.navigate([this.loginRoute || '/']);
+                    return user;
                 })
                 .catch(error => {
                     this.twoFAError = true;
                     this.loading = false;
+                    return error;
                 });
         }
     }
