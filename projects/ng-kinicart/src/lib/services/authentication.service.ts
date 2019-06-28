@@ -17,7 +17,7 @@ export class AuthenticationService extends BaseService {
     }
 
     public getLoggedInUser(): any {
-        return this.kbRequest.makeGetRequest(this.constructHttpURL('/customer/account/user')).toPromise()
+        return this.kbRequest.makeGetRequest(this.constructHttpURL('/admin/user')).toPromise()
             .then(res => {
                 if (res) {
                     this.setSessionUser(res);
@@ -37,6 +37,25 @@ export class AuthenticationService extends BaseService {
             } else {
                 return this.setSessionUser(user);
             }
+        });
+    }
+
+    public generateTwoFactorSettings() {
+        return this.kbRequest.makeGetRequest(this.constructHttpURL('/guest/auth/twoFactorSettings'))
+            .toPromise()
+    }
+
+    public authenticateNewTwoFactor(code, secret) {
+        return this.kbRequest.makeGetRequest(
+            this.constructHttpURL('/guest/auth/newTwoFactor'),
+            {
+                params: { code, secret }
+            }
+        ).toPromise().then(user => {
+            if (user) {
+                this.setSessionUser(user);
+            }
+            return user;
         });
     }
 
@@ -71,30 +90,39 @@ export class AuthenticationService extends BaseService {
     }
 
     public changeUserEmailAddress(newEmailAddress, password) {
-        return this.kbRequest.makeGetRequest(this.constructHttpURL('/guest/auth/changeEmail'), {
+        return this.kbRequest.makeGetRequest(this.constructHttpURL('/admin/user/changeEmail'), {
             params: {
                 newEmailAddress,
                 password
             }
-        }).toPromise();
+        }).toPromise().then(user => {
+            this.setSessionUser(user);
+            return user;
+        });
     }
 
     public changeUserBackEmailAddress(newEmailAddress, password) {
-        return this.kbRequest.makeGetRequest(this.constructHttpURL('/guest/auth/changeBackupEmail'), {
+        return this.kbRequest.makeGetRequest(this.constructHttpURL('/admin/user/changeBackupEmail'), {
             params: {
                 newEmailAddress,
                 password
             }
-        }).toPromise();
+        }).toPromise().then(user => {
+            this.setSessionUser(user);
+            return user;
+        });
     }
 
     public changeUserMobile(newMobile, password) {
-        return this.kbRequest.makeGetRequest(this.constructHttpURL('/guest/auth/changeMobile'), {
+        return this.kbRequest.makeGetRequest(this.constructHttpURL('/admin/user/changeMobile'), {
             params: {
                 newMobile,
                 password
             }
-        }).toPromise();
+        }).toPromise().then(user => {
+            this.setSessionUser(user);
+            return user;
+        });
     }
 
     public getGoogleAuthSettings() {

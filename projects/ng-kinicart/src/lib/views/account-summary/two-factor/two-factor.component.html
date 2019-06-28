@@ -1,23 +1,24 @@
-<!--<kb-bind source="/internal/account/googleAuthSettings" [model]="twoFASettings"></kb-bind>-->
+<h4>Google Authenticator</h4>
+<p>After downloading and installing the Google Authenticator app, scan the QR code below
+    to link your account.</p>
 
-<!--<h4>Google Authenticator</h4>-->
-<!--<p>After downloading and installing the Google Authenticator app, scan the QR code below-->
-<!--    to link your account.</p>-->
+<ng-template [ngIf]="settings">
+    <img [src]="settings.qrCode" alt="">
+    <br><br>
+    <p>Once linked, please enter the verification code you see in the Google Authenticator app below.</p>
 
-<!--<img [src]="twoFASettings.data.qrCode" alt="">-->
-<!--<br><br>-->
-<!--<p>Once linked, please enter the verification code you see in the Google Authenticator app below.</p>-->
+    <input placeholder="Enter verification code" [(ngModel)]="twoFACode">
 
-<!--<input placeholder="Enter verification code" [(ngModel)]="twoFACode">-->
+    <button class="button small-button brand-button" (click)="verifyCode()">
+        Verify Code
+    </button>
 
-<!--<button kbAction actionURL="/internal/account/authenticate2FA?code={{twoFACode}}&secret={{twoFASettings.data.secret}}"-->
-<!--        method="GET" class="button small-button brand-button" (started)="success = true"-->
-<!--        [disabled]="!twoFACode" successRoute="/account/security/overview" (error)="success = false">-->
-<!--    Verify Code-->
-<!--</button>-->
+    <h5>Backup Code</h5>
+    <p>The following code can be used for manual setup if you are unable to scan the QR code.
+        This can also be used to recover your account if your mobile phone gets lost or stolen.</p>
 
-<!--<h5>Backup Code</h5>-->
-<!--<p>The following code can be used for manual setup if you are unable to scan the QR code.-->
-<!--    This can also be used to recover your account if your mobile phone gets lost or stolen.</p>-->
+    <p>Your Two Factor backup code is: <strong>{{settings.secret}}</strong></p>
 
-<!--<p>Your Two Factor backup code is: <strong>{{twoFASettings.data.secret}}</strong></p>-->
+
+</ng-template>
+

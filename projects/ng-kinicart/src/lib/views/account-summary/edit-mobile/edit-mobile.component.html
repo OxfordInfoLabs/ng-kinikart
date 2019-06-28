@@ -5,7 +5,7 @@
 
 <div class="mb2">
     <label>Enter the new mobile number you want to use.</label>
-    <input type="text" placeholder="New email address" [(ngModel)]="newMobile">
+    <input type="text" placeholder="New mobile number" [(ngModel)]="newMobile">
 </div>
 
 <div class="mb2">
@@ -15,7 +15,7 @@
 
 <button type="button" class="button small-button brand-button"
         [disabled]="!newMobile || !currentPassword"
-        (click)="saveEmailAddress()">
+        (click)="saveMobileNumber()">
     Update mobile number
 </button>
 

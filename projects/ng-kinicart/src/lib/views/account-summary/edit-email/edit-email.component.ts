@@ -1,13 +1,14 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { BaseComponent } from '../../base-component';
 import { AuthenticationService } from '../../../services/authentication.service';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
     selector: 'kc-edit-email',
     templateUrl: './edit-email.component.html',
     styleUrls: ['./edit-email.component.sass']
 })
-export class EditEmailComponent extends BaseComponent implements OnInit {
+export class EditEmailComponent extends BaseComponent implements OnInit, OnDestroy {
 
     @Output('saved') saved: EventEmitter<any> = new EventEmitter();
 
@@ -15,8 +16,9 @@ export class EditEmailComponent extends BaseComponent implements OnInit {
     public currentPassword = '';
     public saveError: string;
     public emailAvailable = true;
-
     public user: any;
+
+    private userSub: Subscription;
 
     constructor(kcAuthService: AuthenticationService) {
         super(kcAuthService);
@@ -27,6 +29,10 @@ export class EditEmailComponent extends BaseComponent implements OnInit {
         return this.authService.getLoggedInUser().then(user => {
             this.user = user;
         });
+    }
+
+    ngOnDestroy(): void {
+
     }
 
     public checkEmail() {

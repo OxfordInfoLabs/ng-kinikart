@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { Subject } from 'rxjs/internal/Subject';
 import { AuthenticationService } from '../../services/authentication.service';
 import { BaseComponent } from '../base-component';
 
@@ -8,7 +9,7 @@ import { BaseComponent } from '../base-component';
     templateUrl: './account-summary.component.html',
     styleUrls: ['./account-summary.component.sass']
 })
-export class AccountSummaryComponent extends BaseComponent implements OnInit {
+export class AccountSummaryComponent extends BaseComponent implements OnInit, OnDestroy {
 
     @Input() authenticationService: any;
 
@@ -22,15 +23,20 @@ export class AccountSummaryComponent extends BaseComponent implements OnInit {
     public editBackup = false;
     public enableTwoFa = false;
 
+    private userSub: Subscription;
+
     constructor(kcAuthService: AuthenticationService) {
         super(kcAuthService);
     }
 
     ngOnInit() {
         super.ngOnInit();
-        return this.authService.getLoggedInUser().then(user => {
-            this.security = user;
-        });
+        this.userSub = this.authService.authUser.subscribe(user => this.security = user);
+        return this.authService.getLoggedInUser();
+    }
+
+    ngOnDestroy(): void {
+        this.userSub.unsubscribe();
     }
 
     public resetAccountPassword() {

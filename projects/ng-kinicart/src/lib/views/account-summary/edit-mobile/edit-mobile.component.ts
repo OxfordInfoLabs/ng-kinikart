@@ -28,7 +28,7 @@ export class EditMobileComponent extends BaseComponent implements OnInit {
         });
     }
 
-    public saveEmailAddress() {
+    public saveMobileNumber() {
         this.authService.validateUserPassword(this.user.emailAddress, this.currentPassword)
             .then(res => {
                 if (res) {
