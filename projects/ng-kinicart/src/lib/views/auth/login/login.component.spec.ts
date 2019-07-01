@@ -3,7 +3,7 @@ import { LoginComponent } from './login.component';
 class MockAuthService {
 
     public login(email, password) {
-        return Promise.resolve(email === password ? { step: '2FA' } : true);
+        return Promise.resolve(email === password ? 'REQUIRES_2FA' : true);
     }
 
     public authenticateTwoFactor(twoFaCode) {

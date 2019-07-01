@@ -1,7 +1,9 @@
 import { AccountSummaryComponent } from './account-summary.component';
+import { BehaviorSubject } from 'rxjs';
 
 class MockAuthService  {
 
+    authUser: BehaviorSubject<any> = new BehaviorSubject(null);
     loggedInUser = null;
 
     getLoggedInUser() {
@@ -36,7 +38,7 @@ describe('AccountSummaryComponent', () => {
     });
 
     it ('user object should be populated with logged in user, if we are logged in', () => {
-        service.loggedInUser = {name: 'Mr Test', email: 'test@me.com'};
+        service.authUser.next({name: 'Mr Test', email: 'test@me.com'});
         component.ngOnInit().then(() => {
             expect(component.security).toBeTruthy();
             expect(component.security.name).toBe('Mr Test');
