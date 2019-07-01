@@ -31,8 +31,7 @@ export class AuthenticationService extends BaseService {
         const request = this.constructHttpURL(`/guest/auth/login?emailAddress=${username}&password=${password}`);
         return this.kbRequest.makeGetRequest(request).toPromise().then((user: any) => {
 
-            if (user.step === '2FA') {
-                sessionStorage.setItem('pendingLoginSession', user.session);
+            if (user === 'REQUIRES_2FA') {
                 return user;
             } else {
                 return this.setSessionUser(user);
@@ -62,10 +61,21 @@ export class AuthenticationService extends BaseService {
     public authenticateTwoFactor(code) {
         const url = this.constructHttpURL(`/guest/auth/twoFactor?code=${code}`);
         return this.kbRequest.makeGetRequest(url).toPromise()
-            .then(user => {
-                sessionStorage.removeItem('pendingLoginSession');
-                return this.setSessionUser(user);
+            .then(result => {
+                if (result) {
+                    sessionStorage.removeItem('pendingLoginSession');
+                    return this.getLoggedInUser();
+                } else {
+                    throw(result);
+                }
             });
+    }
+
+    public disableTwoFactor() {
+        const url = this.constructHttpURL('/guest/auth/disableTwoFA');
+        return this.kbRequest.makeGetRequest(url).toPromise().then(user => {
+            this.setSessionUser(user);
+        });
     }
 
     public doesUserExist(username: string) {

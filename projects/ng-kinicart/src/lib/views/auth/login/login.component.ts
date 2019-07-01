@@ -36,7 +36,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
             return this.authService.login(this.email, this.password)
                 .then((res: any) => {
                     this.loading = false;
-                    if (res.step === '2FA') {
+                    if (res === 'REQUIRES_2FA') {
                         this.twoFA = true;
                         return true;
                     } else {

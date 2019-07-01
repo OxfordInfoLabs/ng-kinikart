@@ -50,7 +50,7 @@ export class AccountSummaryComponent extends BaseComponent implements OnInit, On
     public disable2FA() {
         const message = 'Are you sure you would like to turn off Two Factor Authentication?';
         if (window.confirm(message)) {
-            this.authService.disable2FA().then(() => {
+            this.authService.disableTwoFactor().then(() => {
                     this.reloadTwoFactor.next(true);
                 });
         }

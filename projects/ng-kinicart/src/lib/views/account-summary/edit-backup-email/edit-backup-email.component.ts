@@ -40,7 +40,7 @@ export class EditBackupEmailComponent extends BaseComponent implements OnInit {
             .then(res => {
                 if (res) {
                     this.saveError = '';
-                    this.authService.changeUserEmailAddress(this.newEmailAddress, this.currentPassword)
+                    this.authService.changeUserBackEmailAddress(this.newEmailAddress, this.currentPassword)
                         .then(user => {
                             this.user = user;
                             this.saved.emit(user);
