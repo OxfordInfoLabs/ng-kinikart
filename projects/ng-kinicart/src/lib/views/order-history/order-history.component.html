@@ -5,12 +5,12 @@
 
     <div class="flex align-center flex-wrap">
         <input [matDatepicker]="startDatePicker" placeholder="Start Date"
-               (focus)="startDatePicker.open()" class="mt0 mr050" style="width: 32%"
+               (click)="startDatePicker.open()" class="mt0 mr050" style="width: 32%"
                (dateChange)="startDate.next(moment($event.value).format('DD/MM/YYYY'))">
         <mat-datepicker #startDatePicker></mat-datepicker>
 
         <input [matDatepicker]="endDatePicker" placeholder="End Date"
-               (focus)="endDatePicker.open()" class="mt0" style="width: 32%"
+               (click)="endDatePicker.open()" class="mt0" style="width: 32%"
                (dateChange)="endDate.next(moment($event.value).format('DD/MM/YYYY'))">
         <mat-datepicker #endDatePicker></mat-datepicker>
 
