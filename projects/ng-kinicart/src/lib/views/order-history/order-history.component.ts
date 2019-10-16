@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { merge } from 'rxjs/internal/observable/merge';
 import * as moment from 'moment';
 import * as _ from 'lodash';
+import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 export const MY_FORMATS = {
     parse: {
@@ -29,62 +32,38 @@ export const MY_FORMATS = {
 export class OrderHistoryComponent implements OnInit {
 
     public downloadURL: string;
+    public orders: any[];
+
     public startDate = new BehaviorSubject<string>('');
     public endDate = new BehaviorSubject<string>('');
-    public orders: any[] = [{
-        id: 321321321,
-        status: 'Complete',
-        buyerName: 'Mr J Bloggs',
-        date: '14/10/19 09:30',
-        subtotal: '3.50',
-        taxes: '0.70',
-        total: '4.20',
-        paymentData: {
-            AccountBalance: {
-                amount: "4.20",
-                paymentData: [],
-                paymentReference: "",
-                status: "Captured"
-            }
-        },
-        currency: {
-            htmlSymbol: '&pound;'
-        }
-    },{
-        id: 654654654,
-        status: 'Complete',
-        buyerName: 'Mr J Bloggs',
-        date: '15/10/19 09:30',
-        subtotal: '10.00',
-        taxes: '2.00',
-        total: '12.00',
-        paymentData: {
-            AccountBalance: {
-                amount: "12.00",
-                paymentData: [],
-                paymentReference: "",
-                status: "Captured"
-            }
-        },
-        currency: {
-            htmlSymbol: '&pound;'
-        }
-    }];
     public searchText = new BehaviorSubject<string>('');
     public pageSize = new BehaviorSubject<number>(10);
     public page = new BehaviorSubject<number>(1);
+
     public ordersSize: number;
-    public moment = moment;
     public allSelected = false;
     public selectionMade = false;
-    public lodash = _;
     public selectedOrder: any;
     public viewOrderDetails = false;
+
+    public moment = moment;
+    public lodash = _;
 
     constructor() {
     }
 
     ngOnInit() {
+        merge(this.searchText, this.startDate, this.endDate, this.pageSize, this.page)
+            .pipe(
+                debounceTime(300),
+                distinctUntilChanged(),
+                switchMap(() =>
+                    this.getOrders()
+                )
+            )
+            .subscribe((orders: any) => {
+                this.orders = orders;
+            });
     }
 
     public search(searchTerm: string) {
@@ -112,12 +91,57 @@ export class OrderHistoryComponent implements OnInit {
 
     public toggleOrderSelected(order) {
         order.selected = !order.selected;
-
         this.selectionMade = this.lodash.some(this.orders, 'selected');
     }
 
     public viewOrder(order) {
         this.selectedOrder = order;
         this.viewOrderDetails = true;
+    }
+
+    private getOrders() {
+        return of([
+            {
+                id: 321321321,
+                status: 'Complete',
+                buyerName: 'Mr J Bloggs',
+                date: '14/10/19 09:30',
+                subtotal: '3.50',
+                taxes: '0.70',
+                total: '4.20',
+                paymentData: {
+                    AccountBalance: {
+                        amount: '4.20',
+                        paymentData: [],
+                        paymentReference: '',
+                        status: 'Captured'
+                    }
+                },
+                currency: {
+                    htmlSymbol: '&pound;'
+                }
+            }, {
+                id: 654654654,
+                status: 'Complete',
+                buyerName: 'Mr J Bloggs',
+                date: '15/10/19 09:30',
+                subtotal: '10.00',
+                taxes: '2.00',
+                total: '12.00',
+                paymentData: {
+                    AccountBalance: {
+                        amount: '12.00',
+                        paymentData: [],
+                        paymentReference: '',
+                        status: 'Captured'
+                    }
+                },
+                currency: {
+                    htmlSymbol: '&pound;'
+                }
+            }
+        ]).pipe(map((search: any) => {
+            return search;
+        }));
     }
 }
