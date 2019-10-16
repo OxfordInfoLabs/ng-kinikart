@@ -1,11 +1,21 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    EventEmitter,
+    Input,
+    OnDestroy,
+    OnInit,
+    Output,
+    ViewEncapsulation
+} from '@angular/core';
 import { PaymentService } from '../../../services/payment.service';
 import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'ka-payment-method',
     templateUrl: './payment-method.component.html',
-    styleUrls: ['./payment-method.component.sass']
+    styleUrls: ['./payment-method.component.sass'],
+    encapsulation: ViewEncapsulation.None
 })
 export class PaymentMethodComponent implements OnInit, OnDestroy, AfterViewInit {
 
