@@ -12,7 +12,7 @@ import { PaymentService } from '../../../services/payment.service';
 import { Subscription } from 'rxjs';
 
 @Component({
-    selector: 'ka-payment-method',
+    selector: 'kc-payment-method',
     templateUrl: './payment-method.component.html',
     styleUrls: ['./payment-method.component.sass'],
     encapsulation: ViewEncapsulation.None

@@ -6,22 +6,31 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InlineModalComponent } from './lib/views/inline-modal/inline-modal.component';
 import { PaymentMethodsComponent } from './lib/views/payment-methods/payment-methods.component';
 import { PaymentMethodComponent } from './lib/views/payment-methods/payment-method/payment-method.component';
+import { OrderHistoryComponent } from './lib/views/order-history/order-history.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { OrderDetailsComponent } from './lib/views/order-history/order-details/order-details.component';
 
 @NgModule({
     declarations: [
         InlineModalComponent,
         PaymentMethodsComponent,
-        PaymentMethodComponent
+        PaymentMethodComponent,
+        OrderHistoryComponent,
+        OrderDetailsComponent
     ],
     imports: [
         NgKinibindModule,
         RouterModule,
         CommonModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatPaginatorModule,
+        MatDatepickerModule
     ],
     exports: [
-        PaymentMethodsComponent
+        PaymentMethodsComponent,
+        OrderHistoryComponent
     ],
     providers: [
     ]

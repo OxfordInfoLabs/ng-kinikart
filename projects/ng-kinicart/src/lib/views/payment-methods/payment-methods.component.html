@@ -52,7 +52,7 @@
 <kc-inline-modal *ngIf="addPaymentMethod" (closed)="addPaymentMethod = false">
     <div class="p1">
         <h3>Add Payment Method</h3>
-        <ka-payment-method [environment]="environment"
-                           (saved)="addPaymentMethod = false;reload.emit(true)"></ka-payment-method>
+        <kc-payment-method [environment]="environment"
+                           (saved)="addPaymentMethod = false;reload.emit(true)"></kc-payment-method>
     </div>
 </kc-inline-modal>
