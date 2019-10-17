@@ -10,6 +10,7 @@ import { OrderHistoryComponent } from './lib/views/order-history/order-history.c
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { OrderDetailsComponent } from './lib/views/order-history/order-details/order-details.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
     declarations: [
@@ -26,7 +27,8 @@ import { OrderDetailsComponent } from './lib/views/order-history/order-details/o
         FormsModule,
         ReactiveFormsModule,
         MatPaginatorModule,
-        MatDatepickerModule
+        MatDatepickerModule,
+        MatCheckboxModule
     ],
     exports: [
         PaymentMethodsComponent,

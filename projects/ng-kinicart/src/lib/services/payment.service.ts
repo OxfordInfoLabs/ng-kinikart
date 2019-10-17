@@ -43,9 +43,9 @@ export class PaymentService {
         });
     }
 
-    public addPaymentMethod(paymentMethod) {
+    public addPaymentMethod(paymentMethod, defaultMethod = true) {
         return this.kbRequest.makePostRequest(this.config.accessHttpURL +
-            '/payment/saveMethod?defaultMethod=true&provider=stripe', {
+            `/payment/saveMethod?defaultMethod=${defaultMethod}&provider=stripe`, {
             paymentMethod
         }).toPromise();
     }

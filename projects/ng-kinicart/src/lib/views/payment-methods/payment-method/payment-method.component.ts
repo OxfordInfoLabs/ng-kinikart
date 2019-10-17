@@ -26,6 +26,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy, AfterViewInit 
     public cardElement: any;
     public cardholderName: string;
     public errorMessage: string;
+    public default = false;
 
     private stripe: any;
     private stripeSub: Subscription;
@@ -61,7 +62,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy, AfterViewInit 
             this.cardholderName
         ).then(res => {
             if (res.setupIntent) {
-                this.paymentService.addPaymentMethod(res.setupIntent.payment_method)
+                this.paymentService.addPaymentMethod(res.setupIntent.payment_method, this.default)
                     .then(method => {
                         this.saved.emit(res.setupIntent.created);
                     });
