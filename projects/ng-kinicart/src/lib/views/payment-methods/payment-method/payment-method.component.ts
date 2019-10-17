@@ -25,6 +25,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy, AfterViewInit 
     public elements: any;
     public cardElement: any;
     public cardholderName: string;
+    public errorMessage: string;
 
     private stripe: any;
     private stripeSub: Subscription;
@@ -53,15 +54,20 @@ export class PaymentMethodComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     public handleCardSetup() {
+        this.errorMessage = null;
         this.paymentService.handleCardSetup(
             this.setupClientSecret,
             this.cardElement,
             this.cardholderName
         ).then(res => {
-            this.paymentService.addPaymentMethod(res.setupIntent.payment_method)
-                .then(method => {
-                    this.saved.emit(res.setupIntent.created);
-                });
+            if (res.setupIntent) {
+                this.paymentService.addPaymentMethod(res.setupIntent.payment_method)
+                    .then(method => {
+                        this.saved.emit(res.setupIntent.created);
+                    });
+            } else if (res.error && res.error.message) {
+                this.errorMessage = res.error.message;
+            }
         });
     }
 

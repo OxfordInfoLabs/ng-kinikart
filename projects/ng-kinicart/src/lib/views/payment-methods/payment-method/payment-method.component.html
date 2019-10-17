@@ -3,6 +3,9 @@
     Cardholder Name
 </label>
 <div id="card-element"></div>
+
+<p style="color: darkred" class="mt1" *ngIf="errorMessage">{{errorMessage}}</p>
+
 <div class="mt2">
     <button class="but butsm" (click)="handleCardSetup()">Add Payment Method</button>
 </div>
