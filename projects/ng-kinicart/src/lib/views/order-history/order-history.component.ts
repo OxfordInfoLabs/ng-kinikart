@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import * as _ from 'lodash';
 import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { OrderService } from '../../services/order.service';
 
 export const MY_FORMATS = {
     parse: {
@@ -49,7 +50,7 @@ export class OrderHistoryComponent implements OnInit {
     public moment = moment;
     public lodash = _;
 
-    constructor() {
+    constructor(private orderService: OrderService) {
     }
 
     ngOnInit() {
@@ -100,48 +101,19 @@ export class OrderHistoryComponent implements OnInit {
     }
 
     private getOrders() {
-        return of([
-            {
-                id: 321321321,
-                status: 'Complete',
-                buyerName: 'Mr J Bloggs',
-                date: '14/10/19 09:30',
-                subtotal: '3.50',
-                taxes: '0.70',
-                total: '4.20',
-                paymentData: {
-                    AccountBalance: {
-                        amount: '4.20',
-                        paymentData: [],
-                        paymentReference: '',
-                        status: 'Captured'
-                    }
-                },
-                currency: {
-                    htmlSymbol: '&pound;'
-                }
-            }, {
-                id: 654654654,
-                status: 'Complete',
-                buyerName: 'Mr J Bloggs',
-                date: '15/10/19 09:30',
-                subtotal: '10.00',
-                taxes: '2.00',
-                total: '12.00',
-                paymentData: {
-                    AccountBalance: {
-                        amount: '12.00',
-                        paymentData: [],
-                        paymentReference: '',
-                        status: 'Captured'
-                    }
-                },
-                currency: {
-                    htmlSymbol: '&pound;'
-                }
-            }
-        ]).pipe(map((search: any) => {
-            return search;
+        return this.orderService.getOrders(
+            this.searchText.getValue(),
+            this.startDate.getValue() ? this.moment(this.startDate.getValue(), 'DD/MM/YYYY').format('YYYY-MM-DD HH:mm:ss') : null,
+            this.endDate.getValue() ? this.moment(this.endDate.getValue(), 'DD/MM/YYYY').format('YYYY-MM-DD HH:mm:ss') : null
+        ).pipe(map((orders: any) => {
+            return _.map(orders, order => {
+                order.date = this.moment(order.date, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YY HH:mm');
+                order.subtotal = parseFloat(order.subtotal).toFixed(2);
+                order.taxes = parseFloat(order.taxes).toFixed(2);
+                order.total = parseFloat(order.total).toFixed(2);
+                return order;
+            });
         }));
     }
+
 }

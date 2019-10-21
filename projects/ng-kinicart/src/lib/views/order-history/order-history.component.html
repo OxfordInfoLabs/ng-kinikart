@@ -36,7 +36,7 @@
             </div>
             <div>
                 <h3>{{order.id}}</h3>
-                <p>{{order.date}} • {{order.total}}</p>
+                <p>{{order.date}} • <span [innerHTML]="order.currency.htmlSymbol"></span>{{order.total}}</p>
                 <p>{{order.buyerName}} • {{order.status}}</p>
             </div>
 
@@ -86,7 +86,7 @@
             <td>
                 {{order.date}}
             </td>
-            <td>{{order.total}}</td>
+            <td><span [innerHTML]="order.currency.htmlSymbol"></span>{{order.total}}</td>
             <td>{{order.status}}</td>
             <td>
                 <a href="javascript:void(0)" class="thin reverse mb0"
