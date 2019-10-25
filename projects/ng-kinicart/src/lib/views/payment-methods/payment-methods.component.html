@@ -34,7 +34,9 @@
                 </p>
             </div>
 
-            <p>{{source.data.billing_details.name}}</p>
+            <p>
+                <span *ngIf="source.data.billingDetails">{{source.data.billingDetails.name}}</span>
+            </p>
         </div>
 
         <div class="flex justify-end" style="width: 100%">

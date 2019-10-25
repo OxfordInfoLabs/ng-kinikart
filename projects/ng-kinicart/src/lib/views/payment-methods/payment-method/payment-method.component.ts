@@ -26,7 +26,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy, AfterViewInit 
     public cardElement: any;
     public cardholderName: string;
     public errorMessage: string;
-    public default = false;
+    public default = true;
 
     private stripe: any;
     private stripeSub: Subscription;
