@@ -25,17 +25,17 @@
 
         <div class="card-outline">
             <p class="brand">
-                <img src="assets/images/{{source.data.card.brand}}.png" [alt]="source.data.card.brand" height="30">
+                <img src="assets/images/{{source.payment.card.brand}}.png" [alt]="source.payment.card.brand" height="30">
             </p>
             <div>
-                <p><span style="vertical-align: sub">**** **** ****</span> {{source.data.card.last4}}</p>
+                <p><span style="vertical-align: sub">**** **** ****</span> {{source.payment.card.last4}}</p>
                 <p>
-                    <small>expires {{source.data.card.exp_month}} / {{source.data.card.exp_year}}</small>
+                    <small>expires {{source.payment.card.exp_month}} / {{source.payment.exp_year}}</small>
                 </p>
             </div>
 
             <p>
-                <span *ngIf="source.data.billingDetails">{{source.data.billingDetails.name}}</span>
+                <span *ngIf="source.payment.billingDetails">{{source.payment.billingDetails.name}}</span>
             </p>
         </div>
 
