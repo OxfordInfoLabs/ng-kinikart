@@ -75,7 +75,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy, AfterViewInit 
     private setupStripeElements() {
         this.elements = this.stripe.elements();
         this.cardElement = this.elements.create('card');
-        this.cardElement.mount('#card-element')
+        this.cardElement.mount('#card-element');
     }
 
 }
